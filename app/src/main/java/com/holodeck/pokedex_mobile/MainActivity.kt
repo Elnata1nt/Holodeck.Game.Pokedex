@@ -2,6 +2,7 @@ package com.holodeck.pokedex_mobile
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,7 +19,7 @@ data class ListPokemonResult(
 
 // POJO -> Plain Old Java Object
 
-data class ListPokemonApiReseult(
+data class ListPokemonApiResult(
     val count: Int,
     val next: String?,
     val previous: String?,
@@ -26,11 +27,12 @@ data class ListPokemonApiReseult(
 )
 
 interface PokeApiService {
+
     // https://pokeapi.co/api/v2/pokemon?limit=20&offset=0
     // Base: https://pokeapi.co/api/v2/
     // Endpoint (Rota): pokemon?limit=20&offset=0
     @GET("pokemon?limit=20&offset=0")
-    fun listPokemon(): Call<ListPokemonApiReseult>
+    fun listPokemon(): Call<ListPokemonApiResult>
 }
 
 class MainActivity : AppCompatActivity() {
@@ -48,16 +50,26 @@ class MainActivity : AppCompatActivity() {
 
         val call = service.listPokemon()
 
-        call.enqueue(object : Callback<ListPokemonApiReseult> {
+        call.enqueue(object : Callback<ListPokemonApiResult> {
             override fun onResponse(
-                call: Call<ListPokemonApiReseult>,
-                response: Response<ListPokemonApiReseult>
+                call: Call<ListPokemonApiResult>,
+                response: Response<ListPokemonApiResult>
             ) {
                 // Caso a requisiçao HTTP tenha sido bem sucedida
                 Log.d("POKEMON_API", response.body().toString())
+
+                val tvName = findViewById<TextView>(R.id.tvName)
+
+                response.body()?.let {
+                    tvName.text = it.results[0].name
+
+                    it.results.forEach { pokemon ->
+                        tvName.append(pokemon.name + "\n")
+                    }
+                }
             }
 
-            override fun onFailure(call: Call<ListPokemonApiReseult>, t: Throwable) {
+            override fun onFailure(call: Call<ListPokemonApiResult>, t: Throwable) {
                 // Caso a requisiçao HTTP tenha falhado
                 Log.e("POKEMON_API", "Erro ao carregar API.", t)
             }
