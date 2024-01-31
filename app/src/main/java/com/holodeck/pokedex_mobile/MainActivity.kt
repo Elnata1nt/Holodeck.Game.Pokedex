@@ -2,8 +2,10 @@ package com.holodeck.pokedex_mobile
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,6 +42,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val ivImage = findViewById<ImageView>(R.id.ivImage)
+        Glide.with(ivImage).load("https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png").into(ivImage)
+
         val retrofit = Retrofit.Builder()
             .baseUrl("https://pokeapi.co/api/v2/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -61,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                 val tvName = findViewById<TextView>(R.id.tvName)
 
                 response.body()?.let {
-                    tvName.text = it.results[0].name
+                    tvName.text = ""
 
                     it.results.forEach { pokemon ->
                         tvName.append(pokemon.name + "\n")
