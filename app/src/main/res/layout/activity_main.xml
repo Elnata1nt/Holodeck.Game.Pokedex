@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <view class="androidx.appcompat.app.AlertController$RecycleListView"
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPokemon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/pokemon_item">
-    </view>
+        tools:listitem="@layout/pokemon_item" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
