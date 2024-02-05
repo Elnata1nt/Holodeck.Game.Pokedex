@@ -2,10 +2,9 @@ package com.holodeck.pokedex_mobile
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,8 +41,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val ivImage = findViewById<ImageView>(R.id.ivImage)
-        Glide.with(ivImage).load("https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png").into(ivImage)
+//        val ivImage = findViewById<ImageView>(R.id.ivImage)
+//        Glide.with(ivImage).load("https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png").into(ivImage)
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://pokeapi.co/api/v2/")
@@ -63,14 +62,25 @@ class MainActivity : AppCompatActivity() {
                 // Caso a requisiçao HTTP tenha sido bem sucedida
                 Log.d("POKEMON_API", response.body().toString())
 
-                val tvName = findViewById<TextView>(R.id.tvName)
+//                val tvName = findViewById<TextView>(R.id.tvName)
 
                 response.body()?.let {
-                    tvName.text = ""
+                    // TODO: Transformar lista da resultados da Api em lista de itens da Adapter
+                    // TODO: Carregar a RecyclerView com itens do Adapter
 
-                    it.results.forEach { pokemon ->
-                        tvName.append(pokemon.name + "\n")
-                    }
+                    val pokemon1 = PokemonItem("Nome 001", "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png")
+                    val pokemon2 = PokemonItem("Nome 002", "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/002.png")
+                    val pokemonItems = arrayOf(pokemon1, pokemon2)
+
+                    val rvPokemon = findViewById<RecyclerView>(R.id.rvPokemon)
+                    rvPokemon.layoutManager = LinearLayoutManager(this@MainActivity)
+                    rvPokemon.adapter = PokemonListAdapter(pokemonItems)
+
+//                    tvName.text = ""
+//
+//                    it.results.forEach { pokemon ->
+//                        tvName.append(pokemon.name + "\n")
+//                    }
                 }
             }
 
