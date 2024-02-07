@@ -68,10 +68,6 @@ class MainActivity : AppCompatActivity() {
                     // TODO: Transformar lista da resultados da Api em lista de itens da Adapter
                     // TODO: Carregar a RecyclerView com itens do Adapter
 
-//                    val pokemon1 = PokemonItem("Nome 001", "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png")
-//                    val pokemon2 = PokemonItem("Nome 002", "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/002.png")
-//                    val pokemonItems = arrayOf(pokemon1, pokemon2)
-
                     val pokemonItems = it.results.mapIndexed { index, result ->
                         val number = (index + 1).toString().padStart(3,'0')
 
