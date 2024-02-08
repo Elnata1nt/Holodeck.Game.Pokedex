@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
                     val rvPokemon = findViewById<RecyclerView>(R.id.rvPokemon)
                     rvPokemon.layoutManager = LinearLayoutManager(this@MainActivity)
                     rvPokemon.adapter = PokemonListAdapter(pokemonItems)
+
                 }
             }
 
